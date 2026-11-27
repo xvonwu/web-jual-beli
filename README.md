@@ -1,4 +1,5 @@
 # NextGen — Toko Game PS (Laravel 12 + MySQL XAMPP)
+BY FADLILAH NOOR W - 241240001537
 
 Web toko game yang disusun mengikuti flowchart **next-gen-web.drawio**
 (Sitemap + Alur Pembelian dengan Login), dengan desain home bergaya referensi PHLOX.
@@ -89,7 +90,7 @@ Selama `STORE_SAMPLE_DATA=true` (bawaan), web memasang label kuning **Data conto
 Arah desain (palet, huruf, dial animasi) dicatat di `DESIGN.md`. Hasil audit antislop ada di folder `anti-slop/`.
 Setelah mengubah `.env`, jalankan `php artisan config:clear`.
 
-## Pembaruan Terbaru (Panel Admin Produk)
+## Pembaruan Terbaru (Panel Admin Produk) by EXGI - 241240001533
 - **Kelola & Upload Produk (`Admin\ProductController`)**:
   - Daftar produk (`/admin/produk`) dengan fitur pencarian dan filter berdasarkan kategori/platform.
   - Upload produk baru (`/admin/produk/upload`) beserta upload gambar (`jpg`, `jpeg`, `png`, `webp`, maks. 4 MB) ke `public/images/products/` dan pratinjau gambar langsung (*live preview*).
