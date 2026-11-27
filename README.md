@@ -1,4 +1,4 @@
-# NextGen — Toko Game PS (Laravel 12 + MySQL XAMPP)
+# NextGen — Toko Game PS (Laravel 12 + MySQL XAMPP)...
 
 Web toko game yang disusun mengikuti flowchart **next-gen-web.drawio**
 (Sitemap + Alur Pembelian dengan Login), dengan desain home bergaya referensi PHLOX.
