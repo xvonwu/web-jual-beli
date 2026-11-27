@@ -225,14 +225,20 @@ label { display: block; font-size: 15px; font-weight: 600; margin: 0 0 6px; }
 .popup-login { --p1: #4d66ff; --p2: var(--cobalt); }
 .popup-logout { --p1: #2c3366; --p2: var(--ink); }
 .popup-payment { --p1: #34d06b; --p2: #16a34a; }
+.popup-success { --p1: #2dd4bf; --p2: #0d9488; }
+.popup-error { --p1: #ff5a69; --p2: var(--signal); }
 .popup-confirm-delete { --p1: #fbbf24; --p2: #d97706; }
-.popup-deleted { --p1: #ff5a69; --p2: var(--signal); }
+.popup-deleted { --p1: #f43f5e; --p2: #be123c; }
 .popup-confirm-delete .popup-actions { flex-direction: row; }
 .popup-confirm-delete .popup-actions .btn { flex: 1; }
 .popup-confirm-delete .popup-actions .btn-danger { background: var(--signal); color: #fff; border-color: var(--signal); }
 .popup-confirm-delete .popup-actions .btn-danger:hover { background: #d62839; border-color: #d62839; }
-.popup-deleted .popup-actions .btn-red { background: var(--signal); }
-.popup-deleted .popup-actions .btn-red:hover { background: #d62839; }
+.popup-success .popup-actions .btn-red { background: #0d9488; }
+.popup-success .popup-actions .btn-red:hover { background: #0f766e; }
+.popup-error .popup-actions .btn-red { background: var(--signal); }
+.popup-error .popup-actions .btn-red:hover { background: #d62839; }
+.popup-deleted .popup-actions .btn-red { background: #be123c; }
+.popup-deleted .popup-actions .btn-red:hover { background: #9f1239; }
 .popup-head {
     position: relative; height: 138px;
     background:

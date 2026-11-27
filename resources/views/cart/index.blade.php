@@ -88,9 +88,9 @@
                             <input id="f-emailtemp" type="email" name="emailtemp" value="{{ old('emailtemp', $s['emailtemp'] ?? $user->email) }}" required>
                         </div>
                         @php
-                            $selProv = old('provinsitemp', $s['provinsitemp'] ?? '');
-                            $selKota = old('kotatemp', $s['kotatemp'] ?? '');
-                            $selKec = old('kecamatantemp', $s['kecamatantemp'] ?? '');
+                            $selProv = old('provinsitemp', $s['provinsitemp'] ?? $user->province ?? '');
+                            $selKota = old('kotatemp', $s['kotatemp'] ?? $user->city ?? '');
+                            $selKec = old('kecamatantemp', $s['kecamatantemp'] ?? $user->district ?? '');
                             $kotaList = \App\Support\Wilayah::cities($selProv);
                             $kecList = \App\Support\Wilayah::districts($selProv, $selKota);
                         @endphp
@@ -132,7 +132,7 @@
                                 <div class="field">
                                     <label for="ziptemp">Kode Pos</label>
                                     <input type="text" name="ziptemp" id="ziptemp" inputmode="numeric" maxlength="5" pattern="[0-9]{5}"
-                                           value="{{ old('ziptemp', $s['ziptemp'] ?? '') }}" placeholder="5 angka">
+                                           value="{{ old('ziptemp', $s['ziptemp'] ?? $user->zip ?? '') }}" placeholder="5 angka">
                                     @error('ziptemp')<div class="error-text">{{ $message }}</div>@enderror
                                 </div>
                             </div>

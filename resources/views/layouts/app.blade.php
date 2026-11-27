@@ -43,9 +43,16 @@
         <div class="header-actions">
             @auth
                 <div class="user-menu">
-                    <button type="button" class="icon-btn" data-toggle-user aria-expanded="false" aria-label="Akun saya" title="Akun saya">@include('partials.icon', ['n' => 'user'])</button>
+                    <button type="button" class="icon-btn" data-toggle-user aria-expanded="false" aria-label="Akun saya" title="Akun saya">
+                        @if (auth()->user()->avatarUrl())
+                            <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid var(--ink)">
+                        @else
+                            @include('partials.icon', ['n' => 'user'])
+                        @endif
+                    </button>
                     <div class="menu">
                         <div style="padding:8px 12px;font-size:13px;color:var(--muted)">Halo, <b style="color:var(--text)">{{ auth()->user()->name }}</b></div>
+                        <a href="{{ route('profile.edit') }}">Profil &amp; Alamat</a>
                         <a href="{{ route('orders.index') }}">Pesanan Saya</a>
                         <a href="{{ route('payment.form') }}">Konfirmasi Pembayaran</a>
                         @if (auth()->user()->is_admin)

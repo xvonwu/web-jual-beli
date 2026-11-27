@@ -20,9 +20,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'avatar',
         'email',
         'phone',
         'address',
+        'province',
+        'city',
+        'district',
+        'zip',
         'password',
     ];
 
@@ -58,5 +63,30 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function avatarUrl(): ?string
+    {
+        if (! $this->avatar) {
+            return null;
+        }
+
+        return str_starts_with($this->avatar, 'http') ? $this->avatar : asset($this->avatar);
+    }
+
+    public function fullAddress(): ?string
+    {
+        if (! $this->address && ! $this->province) {
+            return null;
+        }
+
+        $parts = array_filter([
+            $this->address,
+            $this->district,
+            $this->city,
+            trim(($this->province ?? '').' '.($this->zip ?? '')),
+        ]);
+
+        return implode(', ', $parts) ?: null;
     }
 }

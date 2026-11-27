@@ -58,6 +58,7 @@ Kupon contoh: `HEMAT10` (10%, min. Rp300.000), `DISKON50K` (min. Rp500.000).
 | Detail produk | `/jual/{id}/{slug}` | – |
 | Cari / Promo / Preorder | `/search?q=`, `/promo`, `/preorder/{platform}` | – |
 | Login / Daftar / Logout | `/login`, `/register`, `POST /logout` | – |
+| Profil, foto, alamat default & password | `/profil` | **Ya** |
 | Tambah ke keranjang | `/beli/{id}/sekarang` | **Ya** |
 | Keranjang | `/belanja` | **Ya** |
 | Hitung ongkir | `POST /hitung_ongkir` (pickup, gojek, grab, jne, jnt) | **Ya** |
@@ -78,7 +79,7 @@ di flowchart. Kalau belum login saat klik **Beli** atau **Bayar Sekarang**, pemb
 
 ## Struktur kode penting
 - `routes/web.php` — semua route
-- `app/Http/Controllers/` — Home, Catalog, Auth, Cart (beli/ongkir/checkout), Order (invoice/pelunasan), Admin/Order, Admin/Product, Admin/Coupon, Admin/ShippingRate
+- `app/Http/Controllers/` — Home, Catalog, Auth, Profile, Cart (beli/ongkir/checkout), Order (invoice/pelunasan), Admin/Order, Admin/Product, Admin/Coupon, Admin/ShippingRate
 - `app/Models/` — Category, Product, Cart, Order, OrderItem, PaymentConfirmation, Coupon, ShippingRate, Subscriber
 - `database/migrations/`, `database/seeders/DatabaseSeeder.php`
 - `resources/views/` — Blade (layout, home, catalog, cart, auth, orders, admin, pages)
@@ -116,3 +117,11 @@ Setelah mengubah `.env`, jalankan `php artisan config:clear`.
 - **Otomatisasi Pembayaran (`Order::PAYMENT_AUTO = 60`)**:
   - Pilihan metode pembayaran **QRIS / Virtual Account (Otomatis Lunas)** saat checkout.
   - Halaman pembayaran instan `/bayar/{invoice}` yang menampilkan QRIS dan nomor Virtual Account beserta tombol simulasi pembayaran berhasil (`POST /bayar/{invoice}/proses`) yang langsung mengubah status pesanan menjadi **Lunas** dan mengisi `paid_at`.
+
+## Pembaruan Terbaru (Profil Akun User & Penyeragaman Notifikasi)
+- **Halaman Profil & Alamat Default (`ProfileController`, `/profil`)**:
+  - Edit foto profil (`jpg`, `png`, `webp`, maks. 2 MB) ke `public/images/avatars/` dengan pratinjau langsung, tombol hapus foto, serta tampilan avatar bulat di header akun.
+  - Edit biodata akun (nama, email, no. HP/WhatsApp) dan ganti password dengan verifikasi password saat ini.
+  - Pengaturan alamat pengiriman default per akun (Provinsi, Kota/Kabupaten, Kecamatan, kode pos, dan alamat lengkap) melalui migrasi `2026_11_27_000200_add_profile_fields_to_users_table`, yang otomatis terisi pada form Hitung Ongkir di halaman keranjang (`/belanja`).
+- **Penyeragaman Desain Pop-up Notifikasi**:
+  - Seluruh notifikasi (`success`, `error`, `toast`, dan `popup`) diseragamkan ke desain pop-up tengah layar seperti notifikasi login (`partials/popup.blade.php`) dengan warna berbeda per tipe: `login` (Biru Cobalt), `logout` (Biru Gelap Ink), `payment` (Hijau Emerald), `success` (Teal/Tosca), `error` (Merah Signal), `confirm-delete` (Oranye/Amber), dan `deleted` (Merah Crimson).

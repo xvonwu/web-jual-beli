@@ -10,6 +10,7 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,6 +78,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/bayar/{invoice}', [OrderController::class, 'autoPay'])->name('payment.auto');
     Route::post('/bayar/{invoice}/proses', [OrderController::class, 'autoPayConfirm'])->name('payment.auto.confirm');
+
+    Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profil/foto', [ProfileController::class, 'removeAvatar'])->name('profile.avatar.remove');
+    Route::put('/profil/alamat', [ProfileController::class, 'updateAddress'])->name('profile.address');
+    Route::put('/profil/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 
 /*
