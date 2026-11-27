@@ -64,6 +64,7 @@ Kupon contoh: `HEMAT10` (10%, min. Rp300.000), `DISKON50K` (min. Rp500.000).
 | Invoice / Pesanan Saya | `/invoice/{invoice}`, `/pesanan` | **Ya** |
 | Konfirmasi pembayaran | `/payment_confirm` → `POST /payment_confirm_save` | **Ya** |
 | Panel admin (verifikasi → Lunas → Dikirim) | `/admin` | **Admin** |
+| Kelola & upload produk | `/admin/produk`, `/admin/produk/upload`, `/admin/produk/{id}/edit` | **Admin** |
 | Contact / Privasi / Syarat | `/contact`, `/privasi`, `/syarat` | – |
 | Newsletter | `POST /subscribe` | – |
 
@@ -74,7 +75,7 @@ di flowchart. Kalau belum login saat klik **Beli** atau **Bayar Sekarang**, pemb
 
 ## Struktur kode penting
 - `routes/web.php` — semua route
-- `app/Http/Controllers/` — Home, Catalog, Auth, Cart (beli/ongkir/checkout), Order (invoice/pelunasan), Admin/Order
+- `app/Http/Controllers/` — Home, Catalog, Auth, Cart (beli/ongkir/checkout), Order (invoice/pelunasan), Admin/Order, Admin/Product
 - `app/Models/` — Category, Product, Cart, Order, OrderItem, PaymentConfirmation, Coupon, ShippingRate, Subscriber
 - `database/migrations/`, `database/seeders/DatabaseSeeder.php`
 - `resources/views/` — Blade (layout, home, catalog, cart, auth, orders, admin, pages)
@@ -87,3 +88,15 @@ Selama `STORE_SAMPLE_DATA=true` (bawaan), web memasang label kuning **Data conto
 
 Arah desain (palet, huruf, dial animasi) dicatat di `DESIGN.md`. Hasil audit antislop ada di folder `anti-slop/`.
 Setelah mengubah `.env`, jalankan `php artisan config:clear`.
+
+## Pembaruan Terbaru (Panel Admin Produk)
+- **Kelola & Upload Produk (`Admin\ProductController`)**:
+  - Daftar produk (`/admin/produk`) dengan fitur pencarian dan filter berdasarkan kategori/platform.
+  - Upload produk baru (`/admin/produk/upload`) beserta upload gambar (`jpg`, `jpeg`, `png`, `webp`, maks. 4 MB) ke `public/images/products/` dan pratinjau gambar langsung (*live preview*).
+  - Edit produk (`/admin/produk/{id}/edit`), termasuk penggantian gambar, harga, harga coret/promo, stok, berat, region, tanggal rilis, dan status (`Rilis Baru`, `Preorder`, `Promo`).
+  - Hapus produk dari tabel Kelola Produk, halaman Edit Produk, dan tombol cepat khusus Admin di halaman Detail Produk (`/jual/{id}/{slug}`), disertai pembersihan otomatis file gambar lokal yang sudah tidak digunakan produk lain.
+- **Pop-up Konfirmasi & Notifikasi Hapus Produk**:
+  - Pop-up konfirmasi interaktif sebelum menghapus produk (tema warna oranye/amber peringatan, menggantikan dialog browser bawaan).
+  - Pop-up notifikasi setelah produk berhasil dihapus (tema warna merah signal, mengikuti gaya pop-up login/pembayaran).
+- **Navigasi Panel Admin**:
+  - Penambahan tab navigasi di halaman admin (`Verifikasi Pesanan`, `Kelola Produk`, `+ Upload Produk Baru`) dan pintasan langsung di menu dropdown akun Admin.
