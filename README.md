@@ -118,7 +118,7 @@ Setelah mengubah `.env`, jalankan `php artisan config:clear`.
   - Pilihan metode pembayaran **QRIS / Virtual Account (Otomatis Lunas)** saat checkout.
   - Halaman pembayaran instan `/bayar/{invoice}` yang menampilkan QRIS dan nomor Virtual Account beserta tombol simulasi pembayaran berhasil (`POST /bayar/{invoice}/proses`) yang langsung mengubah status pesanan menjadi **Lunas** dan mengisi `paid_at`.
 
-## Pembaruan Terbaru (Profil Akun User & Penyeragaman Notifikasi)
+## Pembaruan Terbaru (Profil Akun User & Penyeragaman Notifikasi) By Muhammad Afrizal Aditya 241240001536
 - **Halaman Profil & Alamat Default (`ProfileController`, `/profil`)**:
   - Edit foto profil (`jpg`, `png`, `webp`, maks. 2 MB) ke `public/images/avatars/` dengan pratinjau langsung, tombol hapus foto, serta tampilan avatar bulat di header akun.
   - Edit biodata akun (nama, email, no. HP/WhatsApp) dan ganti password dengan verifikasi password saat ini.
