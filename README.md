@@ -104,7 +104,7 @@ Setelah mengubah `.env`, jalankan `php artisan config:clear`.
 - **Navigasi Panel Admin**:
   - Penambahan tab navigasi di halaman admin (`Verifikasi Pesanan`, `Kelola Produk`, `Kupon`, `Tarif Ongkir`, `+ Upload Produk Baru`) dan pintasan langsung di menu dropdown akun Admin.
 
-## Pembaruan Terbaru (Kemandirian Admin & Otomatisasi Pembayaran)
+## Pembaruan Terbaru (Otomatisasi Pembayaran) By HANDIKA AKBAR - 241240001557
 - **Dashboard Ringkasan Admin & Pengembalian Stok Otomatis**:
   - Ringkasan statistik di `/admin` mencakup **Total Omzet Lunas**, jumlah **Pesanan Perlu Verifikasi Manual**, dan daftar **Produk Stok Menipis** ($\le 2$ pcs) dengan tautan cepat ke edit produk.
   - Pengembalian stok otomatis (`increment`) apabila admin mengubah status pesanan menjadi **`batal`**.
