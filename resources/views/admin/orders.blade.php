@@ -8,6 +8,8 @@
         <div class="ghost" aria-hidden="true">ADMIN</div>
     </div>
 
+    @include('admin._nav')
+
     <div class="stat-row">
         @foreach (\App\Models\Order::STATUSES as $key => $label)
             <a href="{{ route('admin.orders.index', ['status' => $key]) }}" @class(['stat', 'on' => $status === $key])>
@@ -45,6 +47,6 @@
     @include('partials.pagination', ['paginator' => $orders, 'pageUrl' => fn ($p) => $orders->url($p)])
 
     <p style="font-size:13px;color:var(--muted);margin-top:24px">
-        Kelola produk, stok, kategori, kupon &amp; tarif ongkir langsung dari <b>phpMyAdmin</b> (database <code>{{ config('database.connections.mysql.database') }}</code>).
+        Untuk menambah atau mengubah produk, gunakan tab <b>Kelola Produk</b> atau <b>+ Upload Produk Baru</b> di atas.
     </p>
 @endsection

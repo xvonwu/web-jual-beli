@@ -212,6 +212,7 @@ label { display: block; font-size: 15px; font-weight: 600; margin: 0 0 6px; }
 @media (max-width: 980px) { .toasts { top: 104px; right: 16px; } }
 
 /* ---------- Pop-up notifikasi (tengah layar) ---------- */
+.popup-backdrop[hidden] { display: none; }
 .popup-backdrop {
     position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px;
     background: rgba(18, 22, 51, .55); backdrop-filter: blur(3px);
@@ -224,6 +225,14 @@ label { display: block; font-size: 15px; font-weight: 600; margin: 0 0 6px; }
 .popup-login { --p1: #4d66ff; --p2: var(--cobalt); }
 .popup-logout { --p1: #2c3366; --p2: var(--ink); }
 .popup-payment { --p1: #34d06b; --p2: #16a34a; }
+.popup-confirm-delete { --p1: #fbbf24; --p2: #d97706; }
+.popup-deleted { --p1: #ff5a69; --p2: var(--signal); }
+.popup-confirm-delete .popup-actions { flex-direction: row; }
+.popup-confirm-delete .popup-actions .btn { flex: 1; }
+.popup-confirm-delete .popup-actions .btn-danger { background: var(--signal); color: #fff; border-color: var(--signal); }
+.popup-confirm-delete .popup-actions .btn-danger:hover { background: #d62839; border-color: #d62839; }
+.popup-deleted .popup-actions .btn-red { background: var(--signal); }
+.popup-deleted .popup-actions .btn-red:hover { background: #d62839; }
 .popup-head {
     position: relative; height: 138px;
     background:
@@ -252,7 +261,8 @@ label { display: block; font-size: 15px; font-weight: 600; margin: 0 0 6px; }
 .popup-logout .popup-actions .btn-red { background: var(--ink); }
 .popup-backdrop.is-closing { opacity: 0; transition: opacity .2s; }
 @media (prefers-reduced-motion: no-preference) {
-    .popup-backdrop { animation: pop-fade .25s ease both; }
+    .popup-backdrop[hidden] { display: none; }
+.popup-backdrop { animation: pop-fade .25s ease both; }
     .popup { animation: pop-in .45s cubic-bezier(.2, 1.3, .4, 1) both; }
     .popup-icon { animation: pop-icon .5s cubic-bezier(.3, 1.6, .5, 1) .2s both; }
     .popup-check { stroke-dasharray: 24; stroke-dashoffset: 24; animation: pop-draw .4s ease-out .5s forwards; }

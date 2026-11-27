@@ -48,6 +48,20 @@
                 @endauth
             @endif
 
+            @if (auth()->user()?->is_admin)
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px solid var(--line)">
+                    <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-outline btn-sm">Edit Produk (Admin)</a>
+                    <form method="POST" action="{{ route('admin.products.destroy', $product) }}" style="display:inline"
+                          data-confirm-delete="{{ $product->name }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-outline btn-sm" style="color:var(--signal-text);border-color:var(--signal-text)">
+                            Hapus Produk
+                        </button>
+                    </form>
+                </div>
+            @endif
+
             <h2 class="block-title" style="margin:34px 0 8px">Deskripsi</h2>
             <p style="color:#555;margin:0">{!! nl2br(e($product->description)) !!}</p>
         </div>

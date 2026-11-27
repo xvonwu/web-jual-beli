@@ -17,6 +17,8 @@
             <div class="popup-icon" aria-hidden="true">
                 @if ($pop['type'] === 'logout')
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+                @elseif ($pop['type'] === 'deleted')
+                    @include('partials.icon', ['n' => 'trash'])
                 @else
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path class="popup-check" d="m5 12.5 4.5 4.5L19 7.5"/></svg>
                 @endif
@@ -52,6 +54,27 @@
                     @else
                         <button type="button" class="btn btn-red" data-popup-close>Oke</button>
                     @endif
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+@if (auth()->user()?->is_admin)
+    <div class="popup-backdrop" id="confirmDeletePopup" hidden>
+        <div class="popup popup-confirm-delete" role="dialog" aria-modal="true" aria-labelledby="confirmDeleteTitle" aria-describedby="confirmDeleteMsg">
+            <div class="popup-head">
+                <button type="button" class="popup-close" data-confirm-close aria-label="Tutup">&times;</button>
+            </div>
+            <div class="popup-icon" aria-hidden="true">
+                @include('partials.icon', ['n' => 'trash'])
+            </div>
+            <div class="popup-body">
+                <h2 id="confirmDeleteTitle">Hapus produk ini?</h2>
+                <p id="confirmDeleteMsg">Produk yang dihapus tidak dapat dikembalikan.</p>
+                <div class="popup-actions">
+                    <button type="button" class="btn btn-outline" data-confirm-close>Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteSubmit">Ya, Hapus</button>
                 </div>
             </div>
         </div>

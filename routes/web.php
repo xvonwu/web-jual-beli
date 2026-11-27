@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
@@ -82,4 +83,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/pesanan/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
     Route::post('/pesanan/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
+
+    Route::get('/produk', [AdminProductController::class, 'index'])->name('products.index');
+    Route::get('/produk/upload', [AdminProductController::class, 'create'])->name('products.create');
+    Route::post('/produk', [AdminProductController::class, 'store'])->name('products.store');
+    Route::get('/produk/{product}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
+    Route::put('/produk/{product}', [AdminProductController::class, 'update'])->name('products.update');
+    Route::delete('/produk/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
 });

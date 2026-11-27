@@ -127,6 +127,52 @@
     if (primary) primary.focus();
 })();
 
+// Pop-up konfirmasi hapus produk (admin)
+(function () {
+    const modal = document.getElementById('confirmDeletePopup');
+    if (!modal) return;
+    const msg = document.getElementById('confirmDeleteMsg');
+    const submitBtn = document.getElementById('confirmDeleteSubmit');
+    let pendingForm = null;
+    let lastFocus = null;
+
+    const close = function () {
+        modal.classList.add('is-closing');
+        setTimeout(function () {
+            modal.hidden = true;
+            modal.classList.remove('is-closing');
+            if (lastFocus && lastFocus.focus) lastFocus.focus();
+            pendingForm = null;
+        }, 200);
+        document.removeEventListener('keydown', onKey);
+    };
+    const onKey = function (e) {
+        if (e.key === 'Escape') close();
+    };
+
+    document.addEventListener('submit', function (e) {
+        const form = e.target.closest('form[data-confirm-delete]');
+        if (!form) return;
+        e.preventDefault();
+        pendingForm = form;
+        lastFocus = document.activeElement;
+        const name = form.getAttribute('data-confirm-delete');
+        msg.textContent = name
+            ? 'Yakin ingin menghapus "' + name + '"? Data produk akan dihapus permanen.'
+            : 'Produk yang dihapus tidak dapat dikembalikan.';
+        modal.hidden = false;
+        document.addEventListener('keydown', onKey);
+        submitBtn.focus();
+    });
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal || e.target.closest('[data-confirm-close]')) close();
+    });
+    submitBtn.addEventListener('click', function () {
+        if (pendingForm) pendingForm.submit();
+    });
+})();
+
 // Alamat berjenjang: Provinsi -> Kota/Kabupaten -> Kecamatan (data: public/data/wilayah.json)
 (function () {
     const box = document.querySelector('[data-wilayah]');

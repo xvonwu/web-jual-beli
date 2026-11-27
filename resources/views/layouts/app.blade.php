@@ -50,6 +50,8 @@
                         <a href="{{ route('payment.form') }}">Konfirmasi Pembayaran</a>
                         @if (auth()->user()->is_admin)
                             <a href="{{ route('admin.orders.index') }}">Panel Admin</a>
+                            <a href="{{ route('admin.products.index') }}">Kelola Produk</a>
+                            <a href="{{ route('admin.products.create') }}">+ Upload Produk</a>
                         @endif
                         <form method="POST" action="{{ route('logout') }}">@csrf<button type="submit">Logout</button></form>
                     </div>
