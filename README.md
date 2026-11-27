@@ -1,5 +1,5 @@
 # NextGen — Toko Game PS (Laravel 12 + MySQL XAMPP)
-BY FADLILAH NOOR W - 241240001537
+# BY FADLILAH NOOR W - 241240001537
 
 Web toko game yang disusun mengikuti flowchart **next-gen-web.drawio**
 (Sitemap + Alur Pembelian dengan Login), dengan desain home bergaya referensi PHLOX.
