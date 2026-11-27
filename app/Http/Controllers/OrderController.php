@@ -84,4 +84,53 @@ class OrderController extends Controller
                 'message' => 'Konfirmasi transfer Rp '.number_format($data['jml_transfer'], 0, ',', '.').' untuk invoice '.$order->invoice.' sudah kami terima. Admin memverifikasi di hari dan jam kerja.',
             ]);
     }
+
+    /** GET /bayar/{invoice} : halaman pembayaran otomatis (QRIS / Virtual Account) */
+    public function autoPay(Request $request, string $invoice)
+    {
+        $order = Order::with('items')->where('invoice', $invoice)->firstOrFail();
+        abort_unless($order->user_id === $request->user()->id || $request->user()->is_admin, 403);
+
+        if ($order->payment_method_id !== Order::PAYMENT_AUTO || $order->status !== 'menunggu_pembayaran') {
+            return redirect()->route('orders.show', $order->invoice);
+        }
+
+        $vaNumber = '8808'.str_pad((string) $order->id, 10, '0', STR_PAD_LEFT);
+
+        return view('orders.auto-pay', compact('order', 'vaNumber'));
+    }
+
+    /** POST /bayar/{invoice}/proses : simulasi callback payment gateway -> otomatis lunas */
+    public function autoPayConfirm(Request $request, string $invoice)
+    {
+        $order = Order::where('invoice', $invoice)->firstOrFail();
+        abort_unless($order->user_id === $request->user()->id || $request->user()->is_admin, 403);
+
+        if ($order->payment_method_id !== Order::PAYMENT_AUTO || $order->status !== 'menunggu_pembayaran') {
+            return redirect()->route('orders.show', $order->invoice);
+        }
+
+        $order->confirmations()->create([
+            'user_id' => $order->user_id,
+            'email' => $order->email,
+            'nama' => $order->customer_name,
+            'tgl_transfer' => now(),
+            'jml_transfer' => $order->grand_total,
+            'rekening_tujuan' => 'Gateway QRIS / VA Otomatis',
+            'dari_bank' => 'QRIS / VA Otomatis',
+            'rekening_pengirim' => 'Pembayaran Instan',
+        ]);
+
+        $order->update([
+            'status' => 'lunas',
+            'paid_at' => now(),
+        ]);
+
+        return redirect()->route('orders.show', $order->invoice)
+            ->with('popup', [
+                'type' => 'payment',
+                'title' => 'Pembayaran otomatis berhasil!',
+                'message' => 'Pembayaran Rp '.number_format($order->grand_total, 0, ',', '.').' untuk invoice '.$order->invoice.' terverifikasi otomatis. Status pesanan sekarang Lunas.',
+            ]);
+    }
 }

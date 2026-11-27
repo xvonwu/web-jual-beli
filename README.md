@@ -61,11 +61,13 @@ Kupon contoh: `HEMAT10` (10%, min. Rp300.000), `DISKON50K` (min. Rp500.000).
 | Tambah ke keranjang | `/beli/{id}/sekarang` | **Ya** |
 | Keranjang | `/belanja` | **Ya** |
 | Hitung ongkir | `POST /hitung_ongkir` (pickup, gojek, grab, jne, jnt) | **Ya** |
-| Checkout | `POST /checkout_proses` (payment 42 = BCA, 54 = Cash) | **Ya** |
+| Checkout | `POST /checkout_proses` (payment 60 = QRIS/VA Otomatis, 42 = BCA, 54 = Cash) | **Ya** |
 | Invoice / Pesanan Saya | `/invoice/{invoice}`, `/pesanan` | **Ya** |
 | Konfirmasi pembayaran | `/payment_confirm` → `POST /payment_confirm_save` | **Ya** |
+| Pembayaran otomatis (QRIS / VA) | `/bayar/{invoice}` → `POST /bayar/{invoice}/proses` | **Ya** |
 | Panel admin (verifikasi → Lunas → Dikirim) | `/admin` | **Admin** |
 | Kelola & upload produk | `/admin/produk`, `/admin/produk/upload`, `/admin/produk/{id}/edit` | **Admin** |
+| Kelola kupon & tarif ongkir | `/admin/kupon`, `/admin/ongkir` | **Admin** |
 | Contact / Privasi / Syarat | `/contact`, `/privasi`, `/syarat` | – |
 | Newsletter | `POST /subscribe` | – |
 
@@ -76,7 +78,7 @@ di flowchart. Kalau belum login saat klik **Beli** atau **Bayar Sekarang**, pemb
 
 ## Struktur kode penting
 - `routes/web.php` — semua route
-- `app/Http/Controllers/` — Home, Catalog, Auth, Cart (beli/ongkir/checkout), Order (invoice/pelunasan), Admin/Order, Admin/Product
+- `app/Http/Controllers/` — Home, Catalog, Auth, Cart (beli/ongkir/checkout), Order (invoice/pelunasan), Admin/Order, Admin/Product, Admin/Coupon, Admin/ShippingRate
 - `app/Models/` — Category, Product, Cart, Order, OrderItem, PaymentConfirmation, Coupon, ShippingRate, Subscriber
 - `database/migrations/`, `database/seeders/DatabaseSeeder.php`
 - `resources/views/` — Blade (layout, home, catalog, cart, auth, orders, admin, pages)
@@ -100,4 +102,17 @@ Setelah mengubah `.env`, jalankan `php artisan config:clear`.
   - Pop-up konfirmasi interaktif sebelum menghapus produk (tema warna oranye/amber peringatan, menggantikan dialog browser bawaan).
   - Pop-up notifikasi setelah produk berhasil dihapus (tema warna merah signal, mengikuti gaya pop-up login/pembayaran).
 - **Navigasi Panel Admin**:
-  - Penambahan tab navigasi di halaman admin (`Verifikasi Pesanan`, `Kelola Produk`, `+ Upload Produk Baru`) dan pintasan langsung di menu dropdown akun Admin.
+  - Penambahan tab navigasi di halaman admin (`Verifikasi Pesanan`, `Kelola Produk`, `Kupon`, `Tarif Ongkir`, `+ Upload Produk Baru`) dan pintasan langsung di menu dropdown akun Admin.
+
+## Pembaruan Terbaru (Kemandirian Admin & Otomatisasi Pembayaran)
+- **Dashboard Ringkasan Admin & Pengembalian Stok Otomatis**:
+  - Ringkasan statistik di `/admin` mencakup **Total Omzet Lunas**, jumlah **Pesanan Perlu Verifikasi Manual**, dan daftar **Produk Stok Menipis** ($\le 2$ pcs) dengan tautan cepat ke edit produk.
+  - Pengembalian stok otomatis (`increment`) apabila admin mengubah status pesanan menjadi **`batal`**.
+- **Kelola Kupon Promo (`Admin\CouponController`)**:
+  - Halaman `/admin/kupon` untuk membuat kupon baru (nominal/persen, minimal belanja, tanggal kedaluwarsa, dan batas kuota pemakaian `max_uses`), mengaktifkan/menonaktifkan, dan menghapus kupon.
+  - Pelacakan kuota pemakaian (`used_count`) otomatis bertambah saat kupon dipakai checkout (migrasi `2026_11_27_000100_add_coupon_usage_columns`).
+- **Kelola Tarif Ongkir (`Admin\ShippingRateController`)**:
+  - Halaman `/admin/ongkir` untuk mencari provinsi, memfilter kurir (JNE / J&T), dan mengubah tarif ongkir per kg langsung dari web.
+- **Otomatisasi Pembayaran (`Order::PAYMENT_AUTO = 60`)**:
+  - Pilihan metode pembayaran **QRIS / Virtual Account (Otomatis Lunas)** saat checkout.
+  - Halaman pembayaran instan `/bayar/{invoice}` yang menampilkan QRIS dan nomor Virtual Account beserta tombol simulasi pembayaran berhasil (`POST /bayar/{invoice}/proses`) yang langsung mengubah status pesanan menjadi **Lunas** dan mengisi `paid_at`.

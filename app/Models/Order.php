@@ -11,8 +11,10 @@ class Order extends Model
     // ID metode pembayaran mengikuti flowchart
     public const PAYMENT_TRANSFER = 42;
     public const PAYMENT_CASH = 54;
+    public const PAYMENT_AUTO = 60;
 
     public const PAYMENT_METHODS = [
+        self::PAYMENT_AUTO => 'QRIS / Virtual Account (Otomatis Lunas)',
         self::PAYMENT_TRANSFER => 'Transfer ke BCA',
         self::PAYMENT_CASH => 'Cash di kantor (khusus Ambil Langsung)',
     ];

@@ -46,7 +46,14 @@
         <aside class="card">
             <h2 class="block-title" style="margin:0 0 10px">Pembayaran</h2>
             <p style="margin:0 0 6px"><b>{{ $order->paymentLabel() }}</b></p>
-            @if ($order->payment_method_id === \App\Models\Order::PAYMENT_TRANSFER)
+            @if ($order->payment_method_id === \App\Models\Order::PAYMENT_AUTO)
+                @if ($order->status === 'menunggu_pembayaran')
+                    <div class="alert alert-info">
+                        Bayar <b>@rupiah($order->grand_total)</b> via QRIS / Virtual Account agar pesanan langsung otomatis berstatus <b>Lunas</b>.
+                    </div>
+                    <a href="{{ route('payment.auto', $order->invoice) }}" class="btn btn-red btn-block">Bayar Sekarang (QRIS / VA)</a>
+                @endif
+            @elseif ($order->payment_method_id === \App\Models\Order::PAYMENT_TRANSFER)
                 @if ($order->status === 'menunggu_pembayaran')
                     <div class="alert alert-info">
                         Silakan transfer <b>@rupiah($order->grand_total)</b> ke<br><b>{{ config('store.bank') }}</b> @include('partials.sample-tag'),

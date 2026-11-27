@@ -52,6 +52,8 @@
                             <a href="{{ route('admin.orders.index') }}">Panel Admin</a>
                             <a href="{{ route('admin.products.index') }}">Kelola Produk</a>
                             <a href="{{ route('admin.products.create') }}">+ Upload Produk</a>
+                            <a href="{{ route('admin.coupons.index') }}">Kupon Promo</a>
+                            <a href="{{ route('admin.shipping.index') }}">Tarif Ongkir</a>
                         @endif
                         <form method="POST" action="{{ route('logout') }}">@csrf<button type="submit">Logout</button></form>
                     </div>

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ShippingRateController as AdminShippingRateController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
@@ -72,6 +74,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/payment_confirm', [OrderController::class, 'paymentForm'])->name('payment.form');
     Route::post('/payment_confirm_save', [OrderController::class, 'paymentSave'])->name('payment.save');
+
+    Route::get('/bayar/{invoice}', [OrderController::class, 'autoPay'])->name('payment.auto');
+    Route::post('/bayar/{invoice}/proses', [OrderController::class, 'autoPayConfirm'])->name('payment.auto.confirm');
 });
 
 /*
@@ -90,4 +95,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/produk/{product}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
     Route::put('/produk/{product}', [AdminProductController::class, 'update'])->name('products.update');
     Route::delete('/produk/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
+
+    Route::get('/kupon', [AdminCouponController::class, 'index'])->name('coupons.index');
+    Route::post('/kupon', [AdminCouponController::class, 'store'])->name('coupons.store');
+    Route::patch('/kupon/{coupon}/toggle', [AdminCouponController::class, 'toggle'])->name('coupons.toggle');
+    Route::delete('/kupon/{coupon}', [AdminCouponController::class, 'destroy'])->name('coupons.destroy');
+
+    Route::get('/ongkir', [AdminShippingRateController::class, 'index'])->name('shipping.index');
+    Route::patch('/ongkir/{shippingRate}', [AdminShippingRateController::class, 'update'])->name('shipping.update');
 });

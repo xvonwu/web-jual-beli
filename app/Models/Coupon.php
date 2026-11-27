@@ -22,7 +22,12 @@ class Coupon extends Model
 
         $coupon = static::where('code', strtoupper(trim($code)))->where('is_active', true)->first();
 
-        if (! $coupon || ($coupon->expires_at && $coupon->expires_at->isPast()) || $subtotal < $coupon->min_total) {
+        if (
+            ! $coupon
+            || ($coupon->expires_at && $coupon->expires_at->isPast())
+            || $subtotal < $coupon->min_total
+            || ($coupon->max_uses !== null && $coupon->used_count >= $coupon->max_uses)
+        ) {
             return null;
         }
 

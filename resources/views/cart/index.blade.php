@@ -158,7 +158,11 @@
                     <form method="POST" action="{{ route('checkout') }}">
                         @csrf
                         <label class="radio">
-                            <input type="radio" name="payment_method_id" value="{{ \App\Models\Order::PAYMENT_TRANSFER }}" checked>
+                            <input type="radio" name="payment_method_id" value="{{ \App\Models\Order::PAYMENT_AUTO }}" checked>
+                            <span><b>QRIS / Virtual Account (Otomatis Lunas)</b> <span class="pill pill-lunas" style="font-size:12px">Instan</span><br><small class="muted-text">Verifikasi otomatis tanpa perlu konfirmasi manual</small></span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="payment_method_id" value="{{ \App\Models\Order::PAYMENT_TRANSFER }}">
                             <span><b>Transfer ke BCA</b><br><small class="muted-text">{{ config('store.bank') }}</small> @include('partials.sample-tag')</span>
                         </label>
                         <label class="radio {{ $isPickup ? '' : 'disabled' }}">

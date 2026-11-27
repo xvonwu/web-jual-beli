@@ -292,6 +292,10 @@ class CartController extends Controller
 
                 Cart::where('user_id', $request->user()->id)->delete();
 
+                if ($coupon) {
+                    Coupon::whereKey($coupon->id)->increment('used_count');
+                }
+
                 return $order;
             });
         } catch (ValidationException $e) {
@@ -299,6 +303,10 @@ class CartController extends Controller
         }
 
         $request->session()->forget('shipping');
+
+        if ($order->payment_method_id === Order::PAYMENT_AUTO) {
+            return redirect()->route('payment.auto', $order->invoice);
+        }
 
         return redirect()->route('orders.show', $order->invoice)
             ->with('popup', [

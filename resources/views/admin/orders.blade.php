@@ -10,6 +10,31 @@
 
     @include('admin._nav')
 
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px">
+        <div class="card" style="padding:20px">
+            <div style="font-size:13px;color:var(--muted);margin-bottom:4px">Total Omzet Lunas</div>
+            <div style="font-size:24px;font-weight:800;color:var(--ink)">@rupiah($revenue)</div>
+        </div>
+        <div class="card" style="padding:20px">
+            <div style="font-size:13px;color:var(--muted);margin-bottom:4px">Perlu Verifikasi Manual</div>
+            <div style="font-size:24px;font-weight:800;color:var(--cobalt)">{{ $counts['menunggu_verifikasi'] ?? 0 }} pesanan</div>
+        </div>
+        <div class="card" style="padding:20px">
+            <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Produk Stok Menipis (&le; 2)</div>
+            @if ($lowStockProducts->isEmpty())
+                <div style="font-size:15px;font-weight:600;color:#136b38">Semua stok aman</div>
+            @else
+                <div style="display:flex;flex-direction:column;gap:4px;font-size:14px">
+                    @foreach ($lowStockProducts as $lp)
+                        <a href="{{ route('admin.products.edit', $lp) }}" style="color:var(--signal-text);font-weight:600">
+                            {{ $lp->name }} ({{ $lp->stock }} pcs)
+                        </a>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    </div>
+
     <div class="stat-row">
         @foreach (\App\Models\Order::STATUSES as $key => $label)
             <a href="{{ route('admin.orders.index', ['status' => $key]) }}" @class(['stat', 'on' => $status === $key])>
