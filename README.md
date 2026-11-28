@@ -90,9 +90,6 @@ Edit `.env`: `APP_NAME`, `STORE_WHATSAPP`, `STORE_BANK`, `STORE_ADDRESS`, `STORE
 
 Selama `STORE_SAMPLE_DATA=true` (bawaan), web memasang label kuning **Data contoh** di sebelah alamat, WhatsApp, email, dan rekening, supaya pembeli tidak mengira data contoh itu asli. Setelah semua `STORE_*` diisi data toko asli, set `STORE_SAMPLE_DATA=false`, lalu jalankan `php artisan config:clear`.
 
-Arah desain (palet, huruf, dial animasi) dicatat di `DESIGN.md`. Hasil audit antislop ada di folder `anti-slop/`.
-Setelah mengubah `.env`, jalankan `php artisan config:clear`.
-
 ## Pembaruan Terbaru (Panel Admin Produk) by EXGI - 241240001533
 - **Kelola & Upload Produk (`Admin\ProductController`)**:
   - Daftar produk (`/admin/produk`) dengan fitur pencarian dan filter berdasarkan kategori/platform.
